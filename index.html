@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Bengt the magic color stealer</title>
+	<style type="text/css">
+	.clrImgContainer {
+		float:left;
+		border:2em;
+		padding:2em;
+	}
+	.clrImg {
+		width:20em;	
+	}
+	.imgDataContainer {
+		background-color:grey;
+		height:2em;
+	}
+	</style>
+</head>
+<body>
+	<header>
+    	<h2 class="section-header">Color make, go!</h2>
+		<div class="topBar"></div>
+	</header>
+	  <div class="clrImgContainer">
+		  <img src="img/1337_crest_grey.jpeg" alt="1337_crest_grey.jpeg" class="clrImg" />
+	  </div>
+	  <div class="clrImgContainer">
+		  <img src="img/3094349742_984f021cf9_o.jpg" alt="3094349742_984f021cf9_o.jpg" class="clrImg" />
+	  </div>
+	  <div class="clrImgContainer">
+		  <img src="img/8419728382_3aa95965f4_o.jpg" alt="8419728382_3aa95965f4_o.jpg" class="clrImg" />
+	  </div>
+	  <div class="clrImgContainer">
+		  <img src="img/Kalle Wallin - Body.jpg" alt="Kalle Wallin - Body.jpg" class="clrImg" />
+	  </div>
+	  <div class="clrImgContainer">
+		  <img src="img/Kalle Wallin - CV.jpg" alt="Kalle Wallin - CV.jpg" class="clrImg" />
+	  </div>
+	  <div class="clrImgContainer">
+		  <img src="img/Kalle Wallin - Wall of leet.jpg" alt="Kalle Wallin - Wall of leet.jpg" class="clrImg" />
+	  </div>
+	  <div class="clrImgContainer">
+		  <img src="img/pande_small.jpg" alt="pande_small.jpg" class="clrImg" />
+	  </div>
+	  <div class="clrImgContainer">
+		  <img src="img/Pandemonium 1 144.jpg" alt="Pandemonium 1 144.jpg" class="clrImg" />
+	  </div>
+	  <div class="clrImgContainer">
+		  <img src="img/The+Autumn+Enigma+autumn.jpg" alt="The+Autumn+Enigma+autumn.jpg" class="clrImg" />
+	  </div>
+<script src="js/color-thief.js"></script>
+<script>
+var bengt = new ColorThief();
+[].forEach.call(
+  document.querySelectorAll('.clrImg'), 
+  function(imgElement) {
+	 var pal = bengt.getPalette(imgElement, 5);
+	 console.log(pal);
+	 var nisse = document.createElement("div");
+	 console.log(pal[0].concat());
+	 nisse.style.background = "rgb(" + pal[0].concat() + ")";
+	 nisse.innerHTML ="dominant";
+		 imgElement.parentElement.appendChild(nisse);
+  }
+);
+</script>
+</body>
+</html>
