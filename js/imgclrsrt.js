@@ -9,17 +9,19 @@
 						try{
 							var pal = tjuven.getPalette(imgElement, maximumNumberOfColorsInPalette);
 							console.log(pal);
+							var containerDiv = document.createElement("div");
 							var dominantDiv = makeColorDiv(pal[0], "dominant");
 							addOrIncrementColorCount(pal[0]);
-							imgElement.parentElement.appendChild(dominantDiv);
+							containerDiv.appendChild(dominantDiv);
 							if (pal[1]){
 								pal.slice(1).forEach(function(paletteColor){
 					 			  console.log("heya", paletteColor);
 					 			  var colorDiv = makeColorDiv(paletteColor, paletteColor.concat());
 								  addOrIncrementColorCount(paletteColor);
-								  imgElement.parentElement.appendChild(colorDiv); 
+								  containerDiv.appendChild(colorDiv); 
 				 			 	});
 							}
+							imgElement.parentElement.appendChild(containerDiv);
 						}
 						catch(err){console.log(err);}	
 				}
@@ -65,7 +67,7 @@
 			var foundColor = allFoundColors[sortedColors[sortedColor][0]];
 			var rgb = foundColor.r + "," + foundColor.g + "," + foundColor.b;
 			var countForColor = foundColor.count;
-			var colorElement = makeColorDiv([foundColor.r, foundColor.g, foundColor.b], rgb);
+			var colorElement = makeColorDiv([foundColor.r, foundColor.g, foundColor.b], rgb + " (count: " + countForColor + ")");
 			headElement.appendChild(colorElement);
 		}
 	}
