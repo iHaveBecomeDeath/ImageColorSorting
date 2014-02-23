@@ -54,8 +54,20 @@
 	};
 
 	function printHeadResult(){
-		document.querySelector(".allTheColors").innerHTML = allFoundColors.toString();
-		console.log(sortTheResults());
+//		document.querySelector(".allTheColors").innerHTML = allFoundColors.toString();
+		var headElement = document.querySelector(".allTheColors");
+		var sortedColors = sortTheResults();
+		console.log(sortedColors);
+		var subHeader = document.createElement("h3");
+		subHeader.innerHTML = "Found " + sortedColors.length + " colors in total";
+		headElement.appendChild(subHeader);
+		for (var sortedColor in sortedColors) {
+			var foundColor = allFoundColors[sortedColors[sortedColor][0]];
+			var rgb = foundColor.r + "," + foundColor.g + "," + foundColor.b;
+			var countForColor = foundColor.count;
+			var colorElement = makeColorDiv([foundColor.r, foundColor.g, foundColor.b], rgb);
+			headElement.appendChild(colorElement);
+		}
 	}
 
 	function sortTheResults(){
