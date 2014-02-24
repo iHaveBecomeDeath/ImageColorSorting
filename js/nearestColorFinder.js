@@ -1,14 +1,23 @@
-	// with inspiration from http://forrst.com/posts/Find_the_closest_nearest_HEX_color_of_a_small-JDB
-
-	//Function to find the smallest value in an array
 	Array.min = function(array) {return Math.min.apply(Math, array);};
-	
+	icf.indexedArrayOfColors = [];
+	// feels like going the wrong way about this, but it might work
+	for (var cdi in icf.colorDefinitions){
+		var crclr = icf.colorDefinitions[cdi];
+		icf.indexedArrayOfColors.push(crclr.r + ',' + crclr.g + ',' + crclr.b + ',' + cdi);
+	};
 	icf.findNearestColor = function(currentColor) {
 		//currentColor is an object with r,g and b values
 		var nearnessOrDifference = [];
-		for (var colorDefIndex in icf.colorDefinitions)
+		for (var colorDefIndex in icf.indexedArrayOfColors)
 		{
-			var colorDef = icf.colorDefinitions[colorDefIndex];
+			//var colorDef = icf.colorDefinitions[colorDefIndex];
+			var curClrArray = icf.indexedArrayOfColors[colorDefIndex].split(',');
+			var colorDef = {
+				r: curClrArray[0],
+				g: curClrArray[1],
+				b: curClrArray[2],
+				name: curClrArray[3]
+			};
 			nearnessOrDifference.push(
 				Math.sqrt(
 					(currentColor.r-colorDef.r)*
@@ -20,15 +29,9 @@
 				)
 			);			
 		};
- 
-		//Get the lowest number from the differenceArray
-		var lowest = Array.min(nearnessOrDifference);
- 
-		//Get the index for that lowest number
-		var index = nearnessOrDifference.indexOf(lowest);
- 
-		//Bumm, here is the closest color from the array
-		alert(index);
+ 		var indexOfFoundNearestColor = nearnessOrDifference.indexOf(Array.min(nearnessOrDifference));
+		console.log('Found nearest color: ', icf.indexedArrayOfColors[indexOfFoundNearestColor]);
+		return icf.indexedArrayOfColors[indexOfFoundNearestColor].split(',')[3]; // name of color
 	}
  
  	icf.hex2rgb = function(hexColor) {

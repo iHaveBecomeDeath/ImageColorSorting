@@ -1,5 +1,6 @@
 	icf.maximumNumberOfColorsInPalette = 5;
 	icf.allFoundColors = {};
+	icf.allNamedColorsFound = {};
 	icf.calculateTheImages = function(callback) {
 		imagesLoaded(document.querySelector("body"), function(){
 			var tjuven = new ColorThief();
@@ -25,7 +26,7 @@
 						}
 						catch(err){console.log(err);}	
 				}
-			);
+			);			
 			callback();
 		});
 	}
@@ -55,22 +56,75 @@
 	 	return colorDiv;
 	};
 
+	icf.printHeadResult = function(){
+		console.log("printing head, or summit");
+		var headElement = document.querySelector(".allNamedColors");
+		var subHeader = document.createElement("h3");
+		subHeader.innerHTML = "Found these matching named colors (see bottom for more)";
+		headElement.appendChild(subHeader);
+		for (var foundColor in icf.allNamedColorsFound){
+			var namedColor = icf.allNamedColorsFound[foundColor];
+			var rgb = [namedColor.r, namedColor.g, namedColor.b];
+			var listOfMatchesForHTML = "";
+			namedColor.matchedFrom.forEach(function(matchedRGB){
+				listOfMatchesForHTML +=
+				 	"<li>"
+					+ matchedRGB.replace(/_/g, ',')
+					+"</li>"
+				;
+			});
+			var descHTML = 
+				namedColor.name 
+				+ "<br/ > count: " 
+			 	+ namedColor.count 
+				+ "<br /> matched from: "
+				+ "<ul>" 
+				+ listOfMatchesForHTML
+				+ "</ul>"
+			;
+			var colorElement = icf.makeColorDiv(rgb, descHTML);
+			headElement.appendChild(colorElement); 
+		}
+	}
+	
 	icf.printFootResult = function(){
-		var headElement = document.querySelector(".totalResult");
-		icf.sortedColors = icf.sortTheResults();
-		console.log(icf.sortedColors);
+		var containerElement = document.querySelector(".totalResult");
 		var subHeader = document.createElement("h3");
 		subHeader.innerHTML = "Found " + icf.sortedColors.length + " colors in total";
-		headElement.appendChild(subHeader);
+		containerElement.appendChild(subHeader);
 		for (var sortedColor in icf.sortedColors) {
 			var foundColor = icf.allFoundColors[icf.sortedColors[sortedColor][0]];
 			var rgb = foundColor.r + "," + foundColor.g + "," + foundColor.b;
 			var countForColor = foundColor.count;
 			var colorElement = icf.makeColorDiv([foundColor.r, foundColor.g, foundColor.b], rgb + " (count: " + countForColor + ")");
-			headElement.appendChild(colorElement);
+			containerElement.appendChild(colorElement);
 		}
 	}
-
+		
+	icf.printResults = function(){
+		icf.sortedColors = icf.sortTheResults();
+		icf.allNamedColorsFound = icf.calculateTheNamedResults();
+		console.log(icf.allNamedColorsFound);
+		icf.printHeadResult();
+		icf.printFootResult();
+	}
+	
+	icf.calculateTheNamedResults = function(){
+		var returnObj = {};
+		for (var colorIndex in icf.allFoundColors){
+			var nearestMatch = icf.findNearestColor(icf.allFoundColors[colorIndex]);
+			if (!returnObj[nearestMatch]){
+				returnObj[nearestMatch] = icf.colorDefinitions[nearestMatch];
+				returnObj[nearestMatch].count = 1;
+				returnObj[nearestMatch].matchedFrom = [colorIndex];
+			}
+			else{
+				returnObj[nearestMatch].count += 1;
+				returnObj[nearestMatch].matchedFrom.push(colorIndex);
+			}
+		}
+		return returnObj;
+	}
 	icf.sortTheResults = function(){
 		var sortable = [];
 		for (var color in icf.allFoundColors){
@@ -81,4 +135,4 @@
 		return sortable;
 	}
 
-	icf.calculateTheImages(icf.printFootResult);
+	icf.calculateTheImages(icf.printResults);
