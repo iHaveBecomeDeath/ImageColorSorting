@@ -15,3 +15,12 @@
 		background-color:grey;
 		height:2em;
 	}
+	.imageList:after{
+		clear: both;
+	}
+	.totalResult{
+		clear: left;
+	}
+	.totalResult h3 {
+		padding-top: 7em;
+	}
