@@ -1,0 +1,17 @@
+	.clrImgContainer {
+		float:left;
+		border:2em;
+		padding:2em;
+		height:30em;
+	}
+	.clrImg {
+		width:20em;	
+	}
+	.clrDiv {
+		float: left;
+		width: 25%;
+	}
+	.imgDataContainer {
+		background-color:grey;
+		height:2em;
+	}
