@@ -1,23 +1,23 @@
-	var maximumNumberOfColorsInPalette = 5;
-	var allFoundColors = {};
-	function calculateTheImages(callback) {
+	icf.maximumNumberOfColorsInPalette = 5;
+	icf.allFoundColors = {};
+	icf.calculateTheImages = function(callback) {
 		imagesLoaded(document.querySelector("body"), function(){
 			var tjuven = new ColorThief();
 			[].forEach.call(
 				document.querySelectorAll('.clrImg'), 
 				function(imgElement) {
 						try{
-							var pal = tjuven.getPalette(imgElement, maximumNumberOfColorsInPalette);
+							var pal = tjuven.getPalette(imgElement, icf.maximumNumberOfColorsInPalette);
 							console.log(pal);
 							var containerDiv = document.createElement("div");
-							var dominantDiv = makeColorDiv(pal[0], "dominant");
-							addOrIncrementColorCount(pal[0]);
+							var dominantDiv = icf.makeColorDiv(pal[0], "dominant");
+							icf.addOrIncrementColorCount(pal[0]);
 							containerDiv.appendChild(dominantDiv);
 							if (pal[1]){
 								pal.slice(1).forEach(function(paletteColor){
 					 			  console.log("heya", paletteColor);
-					 			  var colorDiv = makeColorDiv(paletteColor, paletteColor.concat());
-								  addOrIncrementColorCount(paletteColor);
+					 			  var colorDiv = icf.makeColorDiv(paletteColor, paletteColor.concat());
+								  icf.addOrIncrementColorCount(paletteColor);
 								  containerDiv.appendChild(colorDiv); 
 				 			 	});
 							}
@@ -29,10 +29,10 @@
 			callback();
 		});
 	}
-	function addOrIncrementColorCount(rgbArray){
+	icf.addOrIncrementColorCount = function(rgbArray){
 		var assocName = rgbArray.concat().toString().replace(/,/g,"_");
-		if (!allFoundColors[assocName]){
-			allFoundColors[assocName] = {
+		if (!icf.allFoundColors[assocName]){
+			icf.allFoundColors[assocName] = {
 				r: rgbArray[0],
 				g: rgbArray[1],
 				b: rgbArray[2],
@@ -41,12 +41,12 @@
 			console.log("created entry", assocName);
 		}
 		else {
-			allFoundColors[assocName].count += 1;
+			icf.allFoundColors[assocName].count += 1;
 			console.log("added count to", assocName);
 		}
 	}
 
-	function makeColorDiv(rgbArray, description) {
+	icf.makeColorDiv = function(rgbArray, description) {
 		var colorDiv = document.createElement("div");
 		console.log(rgbArray.concat());
 		colorDiv.className = "clrDiv";
@@ -55,31 +55,30 @@
 	 	return colorDiv;
 	};
 
-	function printHeadResult(){
-//		document.querySelector(".allTheColors").innerHTML = allFoundColors.toString();
-		var headElement = document.querySelector(".allTheColors");
-		var sortedColors = sortTheResults();
-		console.log(sortedColors);
+	icf.printFootResult = function(){
+		var headElement = document.querySelector(".totalResult");
+		icf.sortedColors = icf.sortTheResults();
+		console.log(icf.sortedColors);
 		var subHeader = document.createElement("h3");
-		subHeader.innerHTML = "Found " + sortedColors.length + " colors in total";
+		subHeader.innerHTML = "Found " + icf.sortedColors.length + " colors in total";
 		headElement.appendChild(subHeader);
-		for (var sortedColor in sortedColors) {
-			var foundColor = allFoundColors[sortedColors[sortedColor][0]];
+		for (var sortedColor in icf.sortedColors) {
+			var foundColor = icf.allFoundColors[icf.sortedColors[sortedColor][0]];
 			var rgb = foundColor.r + "," + foundColor.g + "," + foundColor.b;
 			var countForColor = foundColor.count;
-			var colorElement = makeColorDiv([foundColor.r, foundColor.g, foundColor.b], rgb + " (count: " + countForColor + ")");
+			var colorElement = icf.makeColorDiv([foundColor.r, foundColor.g, foundColor.b], rgb + " (count: " + countForColor + ")");
 			headElement.appendChild(colorElement);
 		}
 	}
 
-	function sortTheResults(){
+	icf.sortTheResults = function(){
 		var sortable = [];
-		for (var color in allFoundColors){
-		      sortable.push([color, allFoundColors[color].count]);
-			  console.log("sorting", color, allFoundColors[color].count);
+		for (var color in icf.allFoundColors){
+		      sortable.push([color, icf.allFoundColors[color].count]);
+			  console.log("sorting", color, icf.allFoundColors[color].count);
 		}
 		sortable.sort(function(a, b) {return b[1] - a[1]});
 		return sortable;
 	}
 
-	calculateTheImages(printHeadResult);
+	icf.calculateTheImages(icf.printFootResult);

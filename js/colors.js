@@ -1,4 +1,4 @@
-var colors = 
+icf.colors = 
 {
   IndianRed {
     name: "IndianRed",
