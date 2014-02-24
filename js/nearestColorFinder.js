@@ -30,7 +30,6 @@
 			);			
 		};
  		var indexOfFoundNearestColor = nearnessOrDifference.indexOf(Array.min(nearnessOrDifference));
-		console.log('Found nearest color: ', icf.indexedArrayOfColors[indexOfFoundNearestColor]);
 		return icf.indexedArrayOfColors[indexOfFoundNearestColor].split(',')[3]; // name of color
 	}
  
