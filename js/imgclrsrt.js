@@ -11,12 +11,12 @@
 							var pal = tjuven.getPalette(imgElement, icf.maximumNumberOfColorsInPalette);
 							var containerDiv = document.createElement("div");
 							var dominantDiv = icf.makeColorDiv(pal[0], "dominant");
-							icf.addOrIncrementColorCount(pal[0]);
+							icf.addOrIncrementColorCount(pal[0], imgElement.src);
 							containerDiv.appendChild(dominantDiv);
 							if (pal[1]){
 								pal.slice(1).forEach(function(paletteColor){
 					 			  var colorDiv = icf.makeColorDiv(paletteColor, paletteColor.concat());
-								  icf.addOrIncrementColorCount(paletteColor);
+								  icf.addOrIncrementColorCount(paletteColor, imgElement.src);
 								  containerDiv.appendChild(colorDiv); 
 				 			 	});
 							}
@@ -28,18 +28,20 @@
 			callback();
 		});
 	}
-	icf.addOrIncrementColorCount = function(rgbArray){
+	icf.addOrIncrementColorCount = function(rgbArray, imgSrc){
 		var assocName = rgbArray.concat().toString().replace(/,/g,"_");
 		if (!icf.allFoundColors[assocName]){
 			icf.allFoundColors[assocName] = {
 				r: rgbArray[0],
 				g: rgbArray[1],
 				b: rgbArray[2],
-				count:1
+				count:1,
+				imageList: [imgSrc]
 			};
 		}
 		else {
 			icf.allFoundColors[assocName].count += 1;
+			icf.allFoundColors[assocName].imageList.push(imgSrc);
 		}
 	}
 
@@ -110,10 +112,12 @@
 				returnObj[nearestMatch] = icf.colorDefinitions[nearestMatch];
 				returnObj[nearestMatch].count = 1;
 				returnObj[nearestMatch].matchedFrom = [colorIndex];
+				returnObj[nearestMatch].imageList = icf.allFoundColors[colorIndex].imageList;
 			}
 			else{
 				returnObj[nearestMatch].count += 1;
 				returnObj[nearestMatch].matchedFrom.push(colorIndex);
+				returnObj[nearestMatch].imageList.push(icf.allFoundColors[colorIndex].imageList);
 			}
 		}
 		return returnObj;
