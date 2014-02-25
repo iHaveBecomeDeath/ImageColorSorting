@@ -68,7 +68,7 @@
 				;
 			});
 			var descHTML = 
-				namedColor.name 
+				namedColor.name + " (" + rgb + ")"
 				+ "<br/ > count: " 
 			 	+ namedColor.count 
 				+ "<br /> matched from: "

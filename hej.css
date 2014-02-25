@@ -9,7 +9,7 @@
 	}
 	.clrDiv {
 		float: left;
-		width: 25%;
+		padding: 0.7em;
 	}
 	.imgDataContainer {
 		background-color:grey;
