@@ -11,6 +11,13 @@
 		float: left;
 		padding: 0.7em;
 	}
+	.clrDiv:hover{
+		color: #ccc;
+		webkit-border-radius: 0.5em;
+		-moz-border-radius: 0.5em;
+		border-radius: 0.5em;
+		padding:1.2em;
+	}
 	.imgDataContainer {
 		background-color:grey;
 		height:2em;
